@@ -63,6 +63,7 @@
     import settings from './settings.vue'
     import showPost from './showPostFriends.vue'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -149,6 +150,7 @@
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
             axios({
                 method:'get',
                 url:'http://restapi.fintegro.com/profiles/' + localStorage.getItem('id_friend'),
@@ -169,6 +171,7 @@
                     this.went =response.data.profile.went;
                     this.photo =response.data.profile.photo;
                     event.preventDefault()
+                    NProgress.done()
                 })
                 .catch(error => {
                     console.log("no")

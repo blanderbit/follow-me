@@ -13,6 +13,7 @@
                     <a href="#">My albums</a>
                     <a href="#" @click="news">News</a>
                     <a href="#" @click="settings">Settings</a>
+                    <a href="#" @click="chat">chat <span style="display: inline-block;color:red;font-weight: bold;background:yellow;border-radius: 10px;padding-left: 5px;padding-right: 5px" v-if="count > 0?true:false">{{count}}</span></a>
                 </nav>
                 <div class="globalMyNavBar_head_searchAndOut">
                     <form>
@@ -150,6 +151,7 @@
     }
 </style>
 <script>
+    import axios from 'axios'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -171,7 +173,10 @@
 
     export default {
         data () {
-            return {}
+            return {
+                count: '',
+                chats:[],
+            }
         },
         methods:{
             LogOut:function(){
@@ -218,6 +223,16 @@
                     this.$router.push({name: 'login'})
                 }
             },
+            chat:function(){
+                if(validToken()) {
+                    event.preventDefault()
+                    this.$router.push({ name: 'chat'})
+                }
+                else{
+                    event.preventDefault()
+                    this.$router.push({name: 'login'})
+                }
+            },
             home:function(){
                 if(validToken()) {
                     event.preventDefault()
@@ -238,6 +253,33 @@
                     this.$router.push({name: 'login'})
                 }
             },
+        },
+        created:function(){var count = 0;
+            const instance = axios.create({
+                baseURL: 'http://restapi.fintegro.com',
+                headers: {
+                    bearer: validToken()
+                }
+            });
+            instance.get('chats', {})
+                .then(response => {
+                    console.log(response.data.chats)
+                    this.chats = response.data.chats
+
+                    for(var i = 0; i<this.chats.length;i++){
+                        console.log(this.chats[i].last_mes.status)
+                        if(this.chats[i].last_mes.status == 0){
+                            count++
+                        }
+                    }
+                    this.count = count
+                    console.log(this.count)
+                })
+                .catch(response => {
+                    console.log("no chat")
+                    console.log(response)
+                    this.errored = true;
+                })
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
 
-  <div id="app">
+  <div id="app" >
     <router-view></router-view>
   </div>
 </template>
@@ -22,22 +22,33 @@
         return token;
     }
 
-
-
 export default {
   name: 'app',
   data () {
-      return {}
-
+      return {
+      }
   },
     created:function(){
-        if(validToken() && localStorage.getItem('id')) {
-                this.$router.push({ name: 'profil',params: {id:localStorage.getItem('id')} })
+        console.log(location.hash.split('/').slice(1))
+        if(!validToken() && !localStorage.getItem('id')) {
+            this.$router.push({ name: 'login' })
         }
         else{
-            this.$router.push({ name: 'login' })
+
+            this.$router.push({ name: 'profil',params: {id:localStorage.getItem('id')} })
         }
     },
 }
 </script>
+<style>
+  body::-webkit-scrollbar{
+    width: 10px;
+    background: white;
+  }
+
+  body::-webkit-scrollbar-thumb{
+    width: 0px;
+    background: lightblue;border-radius: 10px;height: 1px;
+  }
+</style>
 

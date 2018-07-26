@@ -1,6 +1,6 @@
 <template>
     <div id="chat" >
-        <!--<navbar style="position: fixed;margin-left: 0px; z-index: 1000; "></navbar><br>-->
+        <navbar style="position: fixed;margin-left: 0px; z-index: 1000; "></navbar><br>
         <div style="width: 100%; margin-bottom:20px">
             <div class="profil_my_data" style="padding:0;width: 900px;margin-left: auto;margin-right: auto;margin-top:50px;box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 -moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
@@ -13,9 +13,13 @@
                     <hr style="background: #0f8bd9; height: 1px; margin-top: 20px; width: 114%; margin-left: -20px">
                     <div class="listChats">
                         <div class="blokChat" v-for="chat in chats" @click="toChat(chat.chat_id)">
-                            <div  :style="{background: 'url(' + functions(chat.chat_users[1]) +')'}" @click="toFriends(chat.chat_users[1].id)" class="cover" style="float:left ; width: 50px;height: 50px;border-radius: 10px"></div>
+                            <div  :style="{background: 'url(' + FilterPhotoChat(chat.chat_users) +')'}" @click="toFriends(chat.chat_users)" class="cover" style="float:left ; width: 50px;height: 50px;border-radius: 10px"></div>
                             <div style="float:left; width: 240px;height: 50px; margin-left: 10px; line-height: 1.4">
-                                <span style="color: black;font-style: italic; font-size:15px; margin-top: 7px">{{chat.chat_users[1].firstname}} {{chat.chat_users[1].lastname}}</span>
+                                <span style="color: black;font-style: italic; font-size:15px;display: block">{{ FilterNameChat(chat.chat_users) }} {{ FilterLastNameChat(chat.chat_users) }}</span>
+                                <div :style="{background: 'url('+FilterPhotoChatTwo(chat.chat_users,chat.last_mes)+')'}" style="float:left;width: 30px;height: 30px;border-radius: 10px;display: inline-block" class="cover"></div><span style="float:left;margin-left:10px;display: inline-block;margin-top: 5px">{{chat.last_mes.message}}</span>
+                                <ion-icon name="checkmark-circle-outline" style="float:right" v-if="chat.last_mes.status == 1?true:false"></ion-icon>
+                                <ion-icon name="checkmark-circle" style="float:right" v-if="chat.last_mes.status == 0?true:false"></ion-icon>
+                                <div class="clear"></div>
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -33,10 +37,11 @@
 <script>
     import GFooter from '../GloballFooter.vue'
     import sitebar from './sitebar.vue'
-//    import navBar from './navBarProfil.vue'
+    import navBar from './navBarAll.vue'
     import massage from './massage.vue'
     import axios from 'axios'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     //    import VueResource from 'vue-resource'
     function validToken(){
         let cookies = document.cookie.split(',');
@@ -67,8 +72,33 @@
 
         },
         methods: {
-            functions:function(friend){
-                return !friend.photo ? this.animus :friend.photo
+            FilterPhotoChatTwo:function(friend,id){
+                for(let i =0; i<friend.length;i++){
+                    if(friend[i].id == id.sender_id){
+                        return !friend[i].photo ? this.animus :friend[i].photo
+                    }
+                }
+            },
+            FilterPhotoChat:function(friend){
+                for(let i =0; i<friend.length;i++){
+                    if(friend[i].id != localStorage.getItem('id')){
+                        return !friend[i].photo ? this.animus :friend[i].photo
+                    }
+                }
+            },
+            FilterNameChat:function(friend,name){
+                for(let i =0; i<friend.length;i++){
+                    if(friend[i].id != localStorage.getItem('id')){
+                        return !friend[i].firstname? 'No name':friend[i].firstname
+                    }
+                }
+            },
+            FilterLastNameChat:function(friend){
+                for(let i =0; i<friend.length;i++){
+                    if(friend[i].id != localStorage.getItem('id')){
+                        return friend[i].lastname
+                    }
+                }
             },
             rety:function(a){
                 if(a === true){
@@ -110,12 +140,13 @@
         },
         components: {
             globFooter: GFooter,
-//            navbar: navBar,
+            navbar: navBar,
             sitebar:sitebar,
             massage:massage
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
                 const instance = axios.create({
                     baseURL: 'http://restapi.fintegro.com',
                     headers: {
@@ -124,13 +155,12 @@
                 });
                 instance.get('chats', {})
                     .then(response => {
-                        console.log('chat')
                         console.log(response.data.chats)
                         this.chats = response.data.chats
+                        NProgress.done()
                     })
                     .catch(response => {
-                        debugger
-                        console.log("Friends friends error")
+                        console.log("no chat")
                         console.log(response)
                         this.errored = true;
                     })
@@ -144,9 +174,37 @@
                 if(validToken()) {
 
                 }else{
+                    console.log('log')
                     routs.push({name: 'login'})
                 }
             },6000)
+        },
+        watch: {
+            '$route' (to, from) {
+                if(validToken()) {
+                    NProgress.start()
+                    const instance = axios.create({
+                        baseURL: 'http://restapi.fintegro.com',
+                        headers: {
+                            bearer: validToken()
+                        }
+                    });
+                    instance.get('chats', {})
+                        .then(response => {
+                            console.log(response.data.chats)
+                            this.chats = response.data.chats
+                            NProgress.done()
+                        })
+                        .catch(response => {
+                            console.log("no chat")
+                            console.log(response)
+                            this.errored = true;
+                        })
+                } else{
+
+                    this.$router.push({name: 'login'})
+                }
+            }
         }
     }
 

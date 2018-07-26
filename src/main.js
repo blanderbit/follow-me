@@ -31,18 +31,19 @@ const router = new VueRouter({
         {path: '/profil_friend/:id',name:'profil_friend', component: profil_friend, props: true},
         {path: '/profil_friend/friends/:id',name:'profil_friend_friends', component: friends_friend, props: true},
         {path: '/news',name:'news', component: news},
+        {path: '/chat',name:'chat', component: chat},
         {path: '/message/:id',name:'message', component: chat,props:true}
     ],
 })
 
 router.beforeResolve((to, from, next) => {
     if (to.name) {
-        NProgress.start()
+        // NProgress.start()
     }
     next()
 })
 router.afterEach((to, from) => {
-    NProgress.done()
+    // NProgress.done()
 })
 
 export default router

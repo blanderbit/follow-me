@@ -1,12 +1,12 @@
 <template>
-    <div id="friends" >
+    <div id="friends" @wheel="scrol">
         <navbar style="position: fixed;margin-left: 0px; z-index: 1000; " v-on:id="user_id = $event"></navbar><br>
         <div style="width: 100%; margin-bottom:20px">
             <div style="background: url('https://images.clipartlogo.com/files/images/28/289483/male-profile-silhouette_p') no-repeat ;width: 140px; height: 140px;margin-top:80px; margin-left: auto; margin-right: auto; background-size: 100px;"></div>
             <div style="margin-left: auto; margin-right: auto; width: 90px;">Friends</div>
             <div style="width: 900px;margin-left: auto;margin-right: auto;margin-top:40px; " >
                 <div style="float: left; margin-top: 10px;margin-left: 20px;width: 230px">
-                    <sitebar></sitebar>
+                    <sitebar :style="{position:op , top: '70px'}"></sitebar>
                 </div>
                 <div class="setcontent" style="float: left;  width: 590px;margin-top:10px; margin-left:20px; ">
                     <div class="profil_my_data" style="box-shadow: 0 3px 3px rgba(0,0,0,0.2);
@@ -51,6 +51,7 @@
     import navBar from './navBarAll.vue'
     import axios from 'axios'
     import Vue from 'vue'
+import NProgress from 'nprogress'
 
     function validToken(){
         let cookies = document.cookie.split(',');
@@ -70,14 +71,14 @@
 
 
     export default {
-
         data () {
             return {
                 token: validToken(),
                 friendsmy:[],
                 searche:'',
-
+                elem: null,
                 animus: 'http://img0.liveinternet.ru/images/attach/c/3/76/560/76560786_Clothing086_copy.png',
+                op: 'static'
 
             }
         },
@@ -161,7 +162,19 @@
                     event.preventDefault()
                     this.$router.push({name: 'login'})
                 }
+            },
+            scrol:function(){
+                if (window.pageYOffset < this.elem) {
+                    this.op = 'static'
+                } else if (window.pageYOffset > this.elem) {
+                    this.op = 'fixed'
+                    console.log(document.getElementById('category-wrap'))
+                }
             }
+
+        },
+        updated:function(){
+            if(this.elem == null)this.elem = document.getElementById('category-wrap').getBoundingClientRect().bottom + window.pageYOffset
 
         },
         components: {
@@ -171,6 +184,7 @@
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
                 const instance = axios.create({
                     baseURL: 'http://restapi.fintegro.com',
                     headers: {
@@ -183,6 +197,7 @@
                     console.log(response)
                     this.friendsmy = response.data.friends
                     this.enemysmy = response.data.enemies
+                    NProgress.done()
 
                 })
                 .catch(response => {

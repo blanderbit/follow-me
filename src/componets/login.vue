@@ -100,7 +100,7 @@
         methods: {
             submitForm:function() {
                 if (this.user && this.passw){
-//                    NProgress.start();
+
                     axios({
                         method: 'post',
                         url: 'http://restapi.fintegro.com/login',
@@ -119,7 +119,7 @@
                         localStorage.setItem('id',response.data.profile.user_id)
                         console.log(response.data.token)
                         this.$router.push({ name: 'profil',params: { id:  localStorage.getItem('id')} });
-//                        NProgress.done();
+
                     })
                     .catch(errors => {
                         console.log(errors.response);

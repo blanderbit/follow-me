@@ -28,7 +28,7 @@
                          <div class="onecomments" :class="{my_user: ids == comments.user_id? true:false}">
                              <div class="onecomment dialog">
                                  <div style="margin-top: -10px;margin-left: -20px; padding-left: -10px"> <h5 style="display: inline-block">
-                                     {{!comments.user.firstname ||comments.user.firstname== null ? 'NoName' : comments.user.firstname }} {{!comments.user.lastname ||comments.user.lastname== null ? '' :comments.user.lastname}}</h5><ion-icon style="float:right;color:gray; font-size: 20px;margin-top: -5px; margin-right: -15px" name="close" @click="removecomment(comments.id)"></ion-icon>
+                                     {{!comments.user.firstname ||comments.user.firstname== null ? 'NoName' : comments.user.firstname }} {{!comments.user.lastname ||comments.user.lastname== null ? '' :comments.user.lastname}}</h5><ion-icon style="float:right;color:gray; font-size: 20px;margin-top: -5px; margin-right: -15px" name="close" class="cover"  @click="removecomment(comments.id)"></ion-icon>
                                      <p style="position:relative;">{{comments.text}}</p>
                                  </div>
                              </div>

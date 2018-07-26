@@ -54,6 +54,7 @@
     import settings from './settings.vue'
     import showPost from './showPost.vue'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -129,7 +130,7 @@
             },
         },
         created:function(){
-
+            NProgress.start()
                 if(validToken()) {
                     axios({
                         method: 'get',
@@ -158,6 +159,7 @@
                             this.photo = response.data.profile.photo;
                             localStorage.setItem('photo', response.data.profile.photo)
                             event.preventDefault()
+                            NProgress.done()
                         })
                         .catch(error => {
                             console.log("no")
@@ -168,6 +170,8 @@
                             localStorage.removeItem('id')
                             this.$router.push({name: 'login'})
                         })
+
+
                 }else{
                     this.$router.push({name: 'login'})
                 }
@@ -377,17 +381,6 @@
         50% {transform: translateY(-8px);}
     }
     .submit-btn:hover:after {animation: float 2s linear infinite;}
-    .profil_my_data{
-        padding: 20px;
-        background: white;
-    }
-    .profil_my_data .span span{
-        background: rgba(0, 153, 255, 0.3);
-        padding: 20px;
-    }
-    .span{
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
+
 
 </style>

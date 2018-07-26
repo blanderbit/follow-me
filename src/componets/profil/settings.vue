@@ -84,6 +84,7 @@
     }
     import VueRouter from 'vue-router'
     Vue.use(VueRouter)
+    import NProgress from 'nprogress'
 
     export default {
         props:['ids','msg'],
@@ -110,7 +111,7 @@
             }
 
         },
-        created:function(){
+        created:function(){NProgress.start()
             let routs = this.$router
             setInterval(function() {
                 if(validToken()) {
@@ -119,9 +120,11 @@
                     routs.push({name: 'login'})
                 }
             },6000)
+            NProgress.done()
         },
         methods: {
             send: function () {
+                NProgress.start()
                 if(!this.firstName){
                     this.firstName = this.firstNameLocal
                 }
@@ -171,6 +174,7 @@
                     this.went= '',
                     this.photo= '',
                     event.preventDefault()
+                    NProgress.start()
                 })
                 .catch(error => {
                     console.log("no")
