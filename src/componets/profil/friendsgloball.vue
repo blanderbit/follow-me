@@ -49,6 +49,7 @@
     import navBar from './navBarAll.vue'
     import axios from 'axios'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     //    import VueResource from 'vue-resource'
     function validToken(){
         let cookies = document.cookie.split(',');
@@ -74,7 +75,7 @@
                 searchtext:'',
                 animus: 'http://img0.liveinternet.ru/images/attach/c/3/76/560/76560786_Clothing086_copy.png',
                 op:'static',
-                elem: document.getElementById('category-wrap').getBoundingClientRect().bottom + window.pageYOffset
+                elem: null
             }
 
         },
@@ -213,6 +214,10 @@
             }
 
         },
+        updated:function(){
+            if(this.elem == null)this.elem = document.getElementById('category-wrap').getBoundingClientRect().bottom + window.pageYOffset
+
+        },
         components: {
             globFooter: GFooter,
             navbar: navBar,
@@ -220,6 +225,7 @@
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
                 const instance = axios.create({
                     baseURL: 'http://restapi.fintegro.com',
                     headers: {
@@ -235,6 +241,7 @@
                     console.log('search complate')
                     console.log(response.data)
                     this.friends = response.data.profiles
+                    NProgress.done()
 
                 })
                 .catch(response => {

@@ -6,7 +6,7 @@
                 <div style="float: left; margin-top: 10px;margin-left: 30px; ">
                     <mainPhoto style="margin-left: 30px; margin-top: 0px;box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);" :msg="photo" ></mainPhoto>
+	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);" :msg="photo" @writeMes="displays"></mainPhoto>
                     <div class="albums" style="box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
 	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
@@ -22,10 +22,10 @@
 	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
                         <div style=" ">{{firstName}} {{lastName}}</div>
                         <div style=" margin-top: 20px;">{{quotes}}</div>
-                        <hr style="background: lightblue;margin-top: 20px; "><br>
-                        <div>{{'Went:'+ went}}</div>
-                        <div style=" margin-top: 20px;">{{'Lived:'+lived}}</div>
-                        <div style=" margin-top: 20px;">{{'From:'+from}}</div>
+                        <hr v-if="(!went||went == '' || went == ' ') &&(!lived||lived == ''||lived == ' ')&&(!from||from == ''||from == ' ')?false:true " style="background: lightblue;margin-top: 20px; "><br>
+                        <div>{{went == '' || went == ' '? '':'Went:'+ went}}</div>
+                        <div style=" margin-top: 20px;">{{lived == ''||lived == ' '? '':'Lived:'+lived}}</div>
+                        <div style=" margin-top: 20px;">{{from == ''||from == ' '? '':'From:'+from}}</div>
                         <hr style="background: blue;margin-top: 20px; "><br>
                         <div class="span">
                             <span @click="friendes" class="cover">Friends : {{friends}}</span>
@@ -63,6 +63,7 @@
     import settings from './settings.vue'
     import showPost from './showPostFriends.vue'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -74,7 +75,8 @@
         }
         return token;
     }
-
+    import VueRouter from 'vue-router'
+    Vue.use(VueRouter)
 
     export default {
         name: 'profil',
@@ -95,7 +97,7 @@
                 postPhoto:[],
                 postText:null,
                 wall:'',
-                disp:'block',
+                disp:'none',
                 textereas: ''
             }
 
@@ -114,11 +116,14 @@
                 this.$router.push({ name: 'profil_friend_friends',params:{id: localStorage.getItem('id_friend')}})
             },
             changes:function(value){
-                console.log(value)
                 this.wall = value
             },
             back: function(){
                 this.disp = 'none'
+            },
+            displays:function(value){
+                console.log(value)
+                this.disp = value
             },
             sandMassege:function(){console.log(this.textereas),
                 console.log(this.$route.params.id)
@@ -132,26 +137,27 @@
                     user_id: this.$route.params.id,
                     message: this.textereas
                 })
-                    .then(response => {
-                        console.log('create Chat')
-                        console.log(response)
-                        debugger
-                        this.disp = 'none'
-                        this.$router.push({ name: 'message'})
-                    })
-                    .catch(response => {
-                        debugger
-                        console.log("Friends friends error")
-                        console.log(response)
-                        this.errored = true;
-                    })
+                .then(response => {
+                    console.log('create Chat')
+                    console.log(response)
+                    debugger
+                    this.disp = 'none'
+                    this.$router.push({ name: 'message'})
+                })
+                .catch(response => {
+                    debugger
+                    console.log("Friends friends error")
+                    console.log(response)
+                    this.errored = true;
+                })
             }
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
             axios({
                 method:'get',
-                url:'http://restapi.fintegro.com/profiles/' + localStorage.getItem('id_friend'),
+                url:'http://restapi.fintegro.com/profiles/' + this.$router.history.current.params.id,
                 dataType: 'json',
                 headers: {
                     bearer: validToken()
@@ -169,6 +175,7 @@
                     this.went =response.data.profile.went;
                     this.photo =response.data.profile.photo;
                     event.preventDefault()
+                    NProgress.done()
                 })
                 .catch(error => {
                     console.log("no")

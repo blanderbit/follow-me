@@ -26,7 +26,7 @@
         -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);" @click :id="post.id" class="profil_my_data" tag="div">
             <div :style="{background:'url('+post.user.photo+')',backgroundSize:'cover',marginRight: '20px'}" style="float:left;width: 50px; height: 50px; background-size: cover; background-position: center; border-radius: 10px">
             </div>
-            <div style="float:right;font-size: 15px; color: blue;margin-left: 10px "><ion-icon style="color:gray; font-size: 20px" name="close" @click="removepost(post.id)"></ion-icon></div>
+            <div style="float:right;font-size: 15px; color: blue;margin-left: 10px "><ion-icon style="color:gray; font-size: 20px" class="cover" name="close" @click="removepost(post.id)"></ion-icon></div>
             <div style="float:right;font-size: 10px; color: lightgray; ">{{post.date}}<span style="margin-left:10px;color: black">{{post.id}}</span></div>
             <div style="float:left;font-size: 15px; color: blue;margin-left: 10px ">{{post.user.firstname}} {{post.user.lastname}}</div>
 
@@ -48,7 +48,7 @@
                          <div class="onecomments" :class="{my_user: ids == comments.user_id? true:false}">
                              <div class="onecomment dialog">
                                  <div style="margin-top: -10px;margin-left: -20px; padding-left: -10px"> <h5 style="display: inline-block">
-                                     {{!comments.user.firstname ||comments.user.firstname== null ? 'NoName' : comments.user.firstname }} {{!comments.user.lastname ||comments.user.lastname== null ? '' :comments.user.lastname}}</h5><ion-icon style="float:right;color:gray; font-size: 20px;margin-top: -5px; margin-right: -15px" name="close" @click="removecomment(comments.id)"></ion-icon>
+                                     {{!comments.user.firstname ||comments.user.firstname== null ? 'NoName' : comments.user.firstname }} {{!comments.user.lastname ||comments.user.lastname== null ? '' :comments.user.lastname}}</h5><ion-icon style="float:right;color:gray; font-size: 20px;margin-top: -5px; margin-right: -15px" class="cover"  name="close" @click="removecomment(comments.id)"></ion-icon>
                                      <p style="position:relative;">{{comments.text}}</p>
                                  </div>
                              </div>
@@ -58,7 +58,6 @@
                  </div>
              </div>
              <div class="clear"></div>
-
         </div>
     </div>
 </template>
@@ -107,7 +106,6 @@
             })
             .then(response => {
                 this.$emit('postesmy',response.data.posts.length)
-                console.log(response.data.posts)
                 this.posts = response.data.posts
             })
             .catch(response => {

@@ -7,11 +7,9 @@
                     <span class="logoAndName_name">Follow ME</span>
                 </div>
 
-
-
                 <div class="globalMyNavBar_head_searchAndOut">
                     <form>
-                        <input type="search" style="margin-right: 20px;" class="search">
+                        <input type="search" @focus="globalall" style="margin-right: 20px;" class="search">
                         <input type="submit" value="Search">
                         <a href="#" @click="LogOut">Logout</a>
                     </form>
@@ -24,143 +22,173 @@
 
 
 <style>
-#navbar {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
-.globalMyNavBar {
-  background: #a5bd97;
-  /* background: url("https://i.pinimg.com/736x/2c/ed/e5/2cede5989974e6ec49aafdd927dca41d--pastel-tumblr-backgrounds-backgrounds-phone.jpg"); */
+    #navbar{
+        margin-left: auto;margin-right: auto;
+        width: 100%;
+    }
+    .globalMyNavBar{
+        background: rgba(0, 153, 255);
+        margin-left: auto;margin-right: auto;
 
-  margin-left: auto;
-  margin-right: auto;
-}
-.globalMyNavBar_head {
-  margin-top: 0px;
-  width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10px;
-  height: 43px;
-}
-#logo {
-  position: relative;
-  left: -10px;
-  top: -1px;
-  margin-left: 0px;
-}
-.logoAndName {
-  font-family: "Galada", cursive;
-  float: left;
-  margin-top: 0px;
-}
-.logoAndName_name {
-  position: relative;
-  left: 40px;
-  top: -13px;
-  margin-left: 0px;
-  margin-top: 40px;
-  font-size: 40px;
-  font-weight: bold;
-  margin-right: 70px;
-}
-.globalMyNavBar_head_nav {
-  float: left;
-  width: 500px;
-  margin-top: 3px;
-  font-family: "Nunito", sans-serif;
-}
+    }
+    .globalMyNavBar_head{
+        margin-top: 0px;
+        width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        height: 30px;
+    }
+    #logo{
+        position: relative;
+        left:-10px;
+        top:5px;
+        margin-left: 0px;
 
-.globalMyNavBar_head_nav a {
-  padding: 12px;
-  text-decoration: none;
+    }
+    .logoAndName{
+        font-family: 'Galada', cursive;
+        float: left;
+        margin-top: 0px;
 
-  color: white;
-  border-top: 3px solid rgba(0, 153, 255);
-  border-bottom: 3px solid snow;
-  margin-left: -4px;
-}
-.globalMyNavBar_head_searchAndOut a {
-  padding: 15px;
-  text-decoration: none;
-  color: black;
-}
-.globalMyNavBar_head_nav a:hover,
-.globalMyNavBar_head_searchAndOut a:hover {
-  background: #406c35;
-  border-bottom: 3px solid #76ae0a;
-}
 
-.globalMyNavBar_head_searchAndOut {
-  float: right;
-  margin-left: 0px;
-  padding: 15px;
-  margin-top: -10px;
-}
-.clear {
-  clear: both;
-}
-.search {
-  width: 195px;
-  height: 10px;
-}
-input[type="search"] {
-  background-image: url(https://icons8.com/iconizer/files/Token/orig/Search.png);
-  background-repeat: no-repeat; /*Убираем повтор изображения*/
-  background-position: 4px; /*Позиционируем*/
-  background-size: 15px;
-  padding: 10px;
-  outline: none; /*убираем стандартную обводку браузера*/
-  -moz-border-radius: 5px; /*закругляем углы для Mozilla*/
-  -webkit-border-radius: 5px; /*закругляем углы для Chrome, Safari*/
-  border-radius: 5px; /*закругляем углы для остальных браузеров*/
-  padding-left: 20px; /*отступ слева от ввода, чтобы текст не был на картинке(выбирать по размеру картинки)*/
-  height: 20px; /*высота строки ввода*/
-  font-size: 13px; /*размер шрифта*/
-}
-input[type="submit"] {
-  padding: 5px;
-  margin-top: -5px;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-    Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #9d9e9e;
-  text-shadow: 1px 1px 0 rgba(256, 256, 256, 1);
-  background: #fff;
-  border: 1px solid #fff;
-  border-radius: 5px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-input[type="submit"]:hover {
-  background: #d0d7a6;
-  color: #414848;
-}
-input[type="submit"]:focus {
-  background: #dfe9ec;
-  color: #414848;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-}
+
+    }
+    .logoAndName_name{
+        position: relative;
+        left:40px;
+        top:-30px;
+        margin-left: 0px;
+        margin-top: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 70px
+    }
+    .globalMyNavBar_head_nav{
+        float:left;
+        width: 500px;
+        margin-top: 3px;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .globalMyNavBar_head_nav a
+    {        padding: 12px;
+        text-decoration: none;
+
+        color: white;
+        border-top: 3px solid rgba(0, 153, 255);
+        border-bottom: 3px solid snow;
+        margin-left: -4px;
+    }
+    .globalMyNavBar_head_searchAndOut a{
+        padding: 15px;
+        text-decoration: none;
+        color: black
+    }
+    .globalMyNavBar_head_nav a:hover,
+    .globalMyNavBar_head_searchAndOut a:hover{
+        background:rgba(20, 136, 245);
+        border-bottom: 3px solid blue;
+
+    }
+    .globalMyNavBar_head_searchAndOut{
+        float: right;
+        margin-left: 0px;
+        padding: 15px;
+        margin-top: -10px;
+
+    }
+    .clear{
+        clear: both;
+    }
+    .search {
+
+    }
+    input[type="search"] {
+        background-image: url(https://icons8.com/iconizer/files/Token/orig/Search.png);
+        background-repeat: no-repeat; /*Убираем повтор изображения*/
+        background-position: 4px; /*Позиционируем*/
+        background-size: 15px;
+        padding: 10px;
+        outline: none; /*убираем стандартную обводку браузера*/
+        -moz-border-radius: 5px; /*закругляем углы для Mozilla*/
+        -webkit-border-radius: 5px; /*закругляем углы для Chrome, Safari*/
+        border-radius: 5px; /*закругляем углы для остальных браузеров*/
+        padding-left: 20px; /*отступ слева от ввода, чтобы текст не был на картинке(выбирать по размеру картинки)*/
+        height: 20px; /*высота строки ввода*/
+        font-size: 13px; /*размер шрифта*/
+    }
+    input[type="submit"]{
+        padding: 5px;
+        margin-top: -5px;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        color: #9d9e9e;
+        text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+        background: #fff;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+        -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+        -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+    }
+    input[type="submit"]:hover{
+        background: #dfe9ec;
+        color: #414848;
+    }
+    input[type="submit"]:focus{
+        background: #dfe9ec;
+        color: #414848;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+        -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+        -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+    }
 </style>
 <script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {
-    LogOut: function() {
-      let logOut = confirm("Confirm the action");
-      if (logOut == true) {
-        document.cookie = "token=";
-        localStorage.removeItem("id");
-        this.$router.push({ name: "login" });
-      }
+    function delete_cookie ( cookie_name )
+    {
+        var cookie_date = new Date ( );  // Текущая дата и время
+        cookie_date.setTime ( cookie_date.getTime() - 1 );
+        document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
     }
-  }
-};
+    function validToken(){
+        let cookies = document.cookie.split(',');
+        let token;
+        for(let i = 0; i<cookies.length; i++){
+            if(cookies[i].indexOf('token') !== -1){
+                token = cookies[i].split('=')[1];
+                break;
+            }
+        }
+        return token;
+    }
+    export default {
+
+        data () {
+            return {}
+
+        },
+        methods:{
+            LogOut:function(){
+                let logOut = confirm('Confirm the action');
+                if(logOut == true){
+//                    document.cookie = 'token=';
+                    delete_cookie('token')
+                    localStorage.removeItem('id')
+                    this.$router.push({ name: 'login' })
+                }
+            },
+            globalall:function(){
+                if(validToken()) {
+                    event.preventDefault()
+                    this.$router.push({name: 'friends_globall'})
+                }
+                else{
+                    event.preventDefault()
+                    this.$router.push({name: 'login'})
+                }
+            },
+        }
+    }
 </script>

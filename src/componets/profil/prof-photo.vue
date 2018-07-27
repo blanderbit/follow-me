@@ -1,8 +1,7 @@
 <template >
      <div class="transform-border">
-                <img :src="msg!=null ? msg: photo"><br>
-                <input type="button" v-on:click="to" name="edit" value="edit" id="edit_fo" class="edit_foto"  />
-
+           <img :src="msg!=null ? msg: photo"><br>
+           <input type="button" v-on:click="to" name="edit" value="edit" class="edit_foto"  />
      </div>
 </template>
 
@@ -38,24 +37,20 @@
   text-decoration: none;
   outline: none;
   display: inline-block;
-  padding: 15px 30px;
+  padding: 15px 20px;
   margin: 10px 20px;
-  border: 1px solid white;
+    border: 1px solid white;
   border-radius: 10px;
-  box-shadow: 0 0 40px 40px #d0d7a6 inset, 0 0 0 0 #d0d7a6;
+  box-shadow: 0 0 40px 40px #20B2AA inset, 0 0 0 0 #20B2AA;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
-  color: #17313b;
+  color: white;
   transition: .15s ease-in-out;
-  width: 140px;
-  height: 70px;
-  border-radius: 50px;
-  text-align: center;
 }
 .edit_foto:hover {
     color:black;
-    border:1px solid #d0d7a6;
+    border:1px solid black;
 }
 </style>
 

@@ -47,6 +47,7 @@
     import navBar from './navBarAll.vue'
     import axios from 'axios'
     import Vue from 'vue'
+    import NProgress from 'nprogress'
     //    import VueResource from 'vue-resource'
     function validToken(){
         let cookies = document.cookie.split(',');
@@ -172,6 +173,7 @@
         },
         created:function(){
             if(validToken()) {
+                NProgress.start()
                 const instance = axios.create({
                     baseURL: 'http://restapi.fintegro.com',
                     headers: {
@@ -183,6 +185,7 @@
                         console.log('Friends friends')
                         console.log(response)
                         this.friends = response.data.friends
+                        NProgress.done()
 
                     })
                     .catch(response => {

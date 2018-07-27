@@ -1,12 +1,12 @@
 <template>
-    <div id="friends">
+    <div id="friends" @wheel="scrol">
         <navbar style="position: fixed;margin-left: 0px; z-index: 1000; " v-on:id="user_id = $event"></navbar><br>
         <div style="width: 100%; margin-bottom:20px">
             <div style="background: url('https://cdn.icon-icons.com/icons2/934/PNG/512/cross-black-circular-button_icon-icons.com_73054.png') no-repeat ;width: 140px; height: 140px;margin-top:80px; margin-left: auto; margin-right: auto; background-size: 100px;"></div>
             <div style="margin-left: auto; margin-right: auto; width: 100px;">Black list</div>
             <div style="width: 900px;margin-left: auto;margin-right: auto;margin-top:40px; " >
                 <div style="float: left; margin-top: 10px;margin-left: 20px;width: 230px;">
-                    <div><sitebar></sitebar></div>
+                    <div><sitebar :style="{position:op , top: '70px'}"></sitebar></div>
                 </div>
                 <div class="setcontent" style="float: left;  width: 590px;margin-top:10px; margin-left:20px; ">
                     <div class="profil_my_data" style="box-shadow: 0 3px 3px rgba(0,0,0,0.2);
@@ -25,7 +25,7 @@
 	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);">
                         <span v-if="enemysmy.length > 0? false: true" style="font-style: italic">You haven't enemy</span>
                         <div class="blok" v-for="enemy in filterBy(enemysmy,searche)" :id="enemy.id">
-                            <div  :style="{background: 'url(' + functions(enemy) +')'}" @click="toFriends(friend.id)" class="cover" style="float:left ;border: 1px solid white; width: 70px;height: 70px;border-radius: 10px"></div>
+                            <div  :style="{background: 'url(' + functions(enemy) +')'}" @click="toFriends(enemy.id)" class="cover" style="float:left ;border: 1px solid white; width: 70px;height: 70px;border-radius: 10px"></div>
                             <div style="float:left;border-left: 1px solid white; width: 300px;height: 50px; padding: 10px; line-height: 1.4">
                                 <span style="color: black;font-style: italic; font-size:15px; margin-top: 7px">{{enemy.firstname}} {{enemy.lastname}}</span>
                                 <div style="color: gray;font-style: italic; font-size:12px;">{{!enemy.lived ? '' : 'Lived ' + enemy.lived}}</div>
@@ -66,7 +66,7 @@
     Vue.use(VueRouter)
     import VueFilters from 'vue2-filters'
     Vue.use(VueFilters)
-
+    import NProgress from 'nprogress'
 
 
     export default {
@@ -77,6 +77,8 @@
                 enemysmy:[],
                 searche: '',
                 animus: 'http://img0.liveinternet.ru/images/attach/c/3/76/560/76560786_Clothing086_copy.png',
+                op: 'static',
+                elem: null,
             }
         },
         methods: {
@@ -93,6 +95,14 @@
             functions:function(friend){
                 return !friend.photo ? this.animus :friend.photo
             },
+            scrol:function(){
+                if (window.pageYOffset < this.elem) {
+                    this.op = 'static'
+                } else if (window.pageYOffset > this.elem) {
+                    this.op = 'fixed'
+                    console.log(document.getElementById('category-wrap'))
+                }
+            },
             friendto:function(){
                 if(validToken()) {
                     event.preventDefault()
@@ -104,10 +114,10 @@
                 }
             },
             toFriends:function(user){
+                console.log(user)
                 if(validToken()) {
                     event.preventDefault()
-//                    localStorage.setItem('id_friend',user)
-                    this.$router.push({ name: 'profil_friend',params:{id: localStorage.getItem('id_friend')}})
+                    this.$router.push({ name: 'profil_friend',params:{id: user}})
                 }
                 else{
                     event.preventDefault()
@@ -141,8 +151,13 @@
             navbar: navBar,
             sitebar:sitebar
         },
+        updated:function(){
+            if(this.elem == null)this.elem = document.getElementById('category-wrap').getBoundingClientRect().bottom + window.pageYOffset
+
+        },
         created:function(){
             if(validToken()) {
+                NProgress.start()
                 const instance = axios.create({
                     baseURL: 'http://restapi.fintegro.com',
                     headers: {
@@ -154,6 +169,7 @@
                         console.log('your friends')
                         console.log(response)
                         this.enemysmy = response.data.enemies
+                        NProgress.done()
                     })
                     .catch(response => {
                         debugger

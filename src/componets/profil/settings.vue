@@ -55,9 +55,9 @@
                 </form>
 
                 <div style="position: relative; margin-left: 200px; color: black; left: 370px; top:10px">{{fileShow}}</div>
-                <button type="text" class="submit-btn" style="background: #d3dc82" @click="send">Save</button>
+                <button type="text" class="submit-btn" style="background: rgb(0, 78, 150)" @click="send">Save</button>
 
-                <button type="submit" class="submit-btn" style="margin-left: 450px; background: #bac54b" >Remove profil</button>
+                <button type="submit" class="submit-btn" style="margin-left: 450px; background: crimson" >Remove profil</button>
             </div>
             <div class="clear"></div>
         </div>
@@ -70,7 +70,6 @@
     import navBar from './navBarAll.vue'
     import axios from 'axios'
     import Vue from 'vue'
-//    import VueResource from 'vue-resource'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -84,6 +83,7 @@
     }
     import VueRouter from 'vue-router'
     Vue.use(VueRouter)
+    import NProgress from 'nprogress'
 
     export default {
         props:['ids','msg'],
@@ -106,12 +106,22 @@
                 photoLocal: localStorage.getItem('photo'),
                 fileShow:'',
                 image:'',
-
             }
+        },
+        created:function(){NProgress.start()
+            let routs = this.$router
+            setInterval(function() {
+                if(validToken()) {
 
+                }else{
+                    routs.push({name: 'login'})
+                }
+            },6000)
+            NProgress.done()
         },
         methods: {
             send: function () {
+                NProgress.start()
                 if(!this.firstName){
                     this.firstName = this.firstNameLocal
                 }
@@ -161,6 +171,7 @@
                     this.went= '',
                     this.photo= '',
                     event.preventDefault()
+                    NProgress.done()
                 })
                 .catch(error => {
                     console.log("no")
@@ -190,7 +201,7 @@
                    .then(response => {
                         console.log(response)
                         console.log(response.data.link)
-                       this.photo = response.data.link
+                        this.photo = response.data.link
                         debugger
                  })
                         .catch(error => {
@@ -209,8 +220,7 @@
 </script>
 <style>
     #settings{
-        background: #fff3e3;
-;
+        background: #f5f5f5;
     }
     .setcontent label {
         color: #999;

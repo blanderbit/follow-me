@@ -3,6 +3,7 @@
            <img :src="msg!=null ? msg: photo"><br>
          <a href=""  class="pdelta" style="display: none" v-show="!retys(useres)" @click="addtofriends">add friend</a>
          <a href="" class="podelta" v-show="retys(useres)"  @click="addtofriends" >remove</a>
+         <a href="" class="podelta"  @click="writeMessage()" >Write</a>
      </div>
 </template>
 
@@ -165,6 +166,10 @@ Vue.use(VueRouter)
                     event.srcElement.style.display = 'block'
                 }
             },
+            writeMessage:function(){
+                event.preventDefault()
+                this.$emit('writeMes','block')
+            },
             retys:function(a){
                 for(let i = 0; i<a.length;i++) {
                     if(a[i].user_id === localStorage.getItem('id')){
@@ -204,13 +209,11 @@ Vue.use(VueRouter)
                 },
             })
             .then(response => {
-                console.log("yas photo")
                 this.useres = response.data.friends
 
             })
             .catch(error => {
                 console.log("no photo")
-
             })
         }
 

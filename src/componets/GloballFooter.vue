@@ -6,9 +6,9 @@
                 <div class="globalMyFooter_head_up">
                     <div>
                         <a href="https://vk.com" ><ion-icon name="logo-vk" ></ion-icon></a>
-                        <a href="https://www.instagram.com/" ><ion-icon name="logo-instagram"></ion-icon></a>
-                        <a href="https://www.linkedin.com/" ><ion-icon name="logo-linkedin"></ion-icon></a>
-                        <a href="https://www.facebook.com/" ><ion-icon name="logo-facebook"></ion-icon></a>
+                        <a href="https://www.instagram.com/" ><ion-icon name="logo-instagram" ></ion-icon></a>
+                        <a href="https://www.linkedin.com/" ><ion-icon name="logo-linkedin" ></ion-icon></a>
+                        <a href="https://www.facebook.com/" ><ion-icon name="logo-facebook" ></ion-icon></a>
                     </div>
                 </div>
                 <hr>
@@ -40,7 +40,7 @@ var date = new Date();
 <style>
     .globalMyFooter{
 
-        background:#a5bd97;
+        background: rgba(0, 153, 255);
         width: 100%;
 
     }
@@ -50,11 +50,11 @@ var date = new Date();
         margin-right: auto;
         padding: 10px;
     }
-    ion-icon {
+  #my_footer  ion-icon {
         font-size: 34px;
         color: white;
     }
-    ion-icon:hover{
+  #my_footer  ion-icon:hover{
         color: black;
     }
     .globalMyFooter_head_down{
@@ -72,6 +72,6 @@ var date = new Date();
     }
     hr{
         height: 2px;
-        background: #f4e7da;
+        background: yellow;
     }
 </style>
