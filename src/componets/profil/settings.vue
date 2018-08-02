@@ -1,6 +1,6 @@
 <template>
-    <div id="settings">
-        <navbar style="position: fixed;margin-left: 0px; z-index: 1000; " v-on:id="user_id = $event"></navbar><br>
+    <div id="settings" class="settings" style="overflow-x: hidden">
+        <navbar v-on:id="user_id = $event"></navbar><br>
         <div style="width: 100%; margin-bottom:20px">
             <div style="background: url('src/assets/settings-1615049_960_720.png') no-repeat ;width: 100px; height: 100px;margin-top:80px; margin-left: auto; margin-right: auto; background-size: 100px;"></div>
             <div style="margin-left: auto; margin-right: auto; width: 60px;">Settings</div>
@@ -8,8 +8,8 @@
                 <div style="float: left; margin-top: 10px;margin-left: 20px;">
                     <sitebar></sitebar>
                 </div>
-                <div class="setcontent" style="float: left;  width: 590px;margin-top:10px; margin-left:20px; ">
-                    <div style="float: left;  width: 280px; margin-right: 10px; ">
+                <div class="setcontent paramsSetContent" >
+                    <div class="settingLeft">
                         <div class="group">
                             <input type="text" v-model="firstName"  placeholder="Firstname">
                             <span class="bar"></span>
@@ -20,11 +20,11 @@
                             <span class="bar"></span>
                         </div>
                         <div>
-                            <textarea cols="11"  v-model="quotes" rows="4" placeholder="Quotes"></textarea>
+                            <textarea cols="11" class="textareaSettings"  v-model="quotes" rows="4" placeholder="Quotes"></textarea>
                             <span class="bar"></span>
                         </div>
                     </div>
-                    <div style="float: right;  width: 280px;">
+                    <div class="settingRight">
 
                         <div class="group">
                             <input type="text" v-model="lived" placeholder="Lived">
@@ -55,9 +55,9 @@
                 </form>
 
                 <div style="position: relative; margin-left: 200px; color: black; left: 370px; top:10px">{{fileShow}}</div>
-                <button type="text" class="submit-btn" style="background: #d3dc82" @click="send">Save</button>
+                <button type="text" class="submit-btn-settings pointer" style="background: rgb(0, 78, 150)" @click="send">Save</button>
 
-                <button type="submit" class="submit-btn" style="margin-left: 450px; background: #bac54b" >Remove profil</button>
+                <button type="submit" class="submit-btn-settings submit-btn-settings-left pointer"  >Remove profil</button>
             </div>
             <div class="clear"></div>
         </div>
@@ -70,7 +70,6 @@
     import navBar from './navBarAll.vue'
     import axios from 'axios'
     import Vue from 'vue'
-//    import VueResource from 'vue-resource'
     function validToken(){
         let cookies = document.cookie.split(',');
         let token;
@@ -84,6 +83,7 @@
     }
     import VueRouter from 'vue-router'
     Vue.use(VueRouter)
+    import NProgress from 'nprogress'
 
     export default {
         props:['ids','msg'],
@@ -106,12 +106,22 @@
                 photoLocal: localStorage.getItem('photo'),
                 fileShow:'',
                 image:'',
-
             }
+        },
+        created:function(){NProgress.start()
+            let routs = this.$router
+            setInterval(function() {
+                if(validToken()) {
 
+                }else{
+                    routs.push({name: 'login'})
+                }
+            },6000)
+            NProgress.done()
         },
         methods: {
             send: function () {
+                NProgress.start()
                 if(!this.firstName){
                     this.firstName = this.firstNameLocal
                 }
@@ -161,6 +171,7 @@
                     this.went= '',
                     this.photo= '',
                     event.preventDefault()
+                    NProgress.done()
                 })
                 .catch(error => {
                     console.log("no")
@@ -190,7 +201,7 @@
                    .then(response => {
                         console.log(response)
                         console.log(response.data.link)
-                       this.photo = response.data.link
+                        this.photo = response.data.link
                         debugger
                  })
                         .catch(error => {
@@ -208,133 +219,15 @@
 
 </script>
 <style>
-    #settings{
-        background: #fff3e3;
-;
-    }
-    .setcontent label {
-        color: #999;
-        font-size: 18px;
-        position: absolute;
-        pointer-events: none;
-        left: 10px;
-        top: 15px;
-        transition: 0.2s ease all;
-        -moz-transition: 0.2s ease all;
-        -webkit-transition: 0.2s ease all;
-    }
-
-    /* active state */
-    .setcontent .group input:focus ~ label, {
-        top: -15px;
-        font-size: 14px;
-        color: #5264AE;
-    }
 
 
 
-    .setcontent .bar {
-        position: relative;
-        display: block;
-        width: 280px;
-    }
-    .setcontent  .bar:before,.setcontent .bar:after {
-        content: "";
-        height: 2px;
-        width: 0;
-        bottom: 0;
-        position: absolute;
-        background: #5264AE;
-        transition: 0.2s ease all;
-        -moz-transition: 0.2s ease all;
-        -webkit-transition: 0.2s ease all;
-    }
-    .setcontent .bar:before {
-        left: 50%;
-    }
-    .setcontent .bar:after {
-        right: 50%;
-    }
-
-    /* active state */
-    .setcontent .group input:focus ~ .bar:before,
-    .setcontent .group input:focus ~ .bar:after,
-        textarea:focus ~ .bar:before,
-    textarea:focus ~ .bar:after
-    {
-        width: 50%;
-    }
-    .setcontent  .group {
-        position: relative;
-        margin-bottom: 30px;
-    }
-
-    .setcontent .group input
-   {
-        font-size: 16px;
-        padding: 10px;
-        display: block;
-        width: 260px;
-
-        border: none;
-        border-bottom: 1px solid #ccc;
-
-    }
-    textarea{
-        font-size: 16px;
-        padding: 11px;
-        display: block;
-        width: 262px;
-        border: none;
-        border-bottom: 1px solid #ccc;
-
-    }
-    .setcontent input:focus,
-    textarea:focus{
-        outline: none;
-    }
-    .uploadPhoto {
-        position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
-        overflow: hidden; /* Все что выходит за пределы - скрываем */
-        width: 260px; /* Задаем ширину кнопки выбора файла */
-        height: 20px; /* Задаем высоту кнопки выбора файла */
-        background: #6da047;
-        border-radius: 3px;
-        padding: 10px;
-        color: #fff;
-        text-align: center;
-        float: right;
-        margin-top: -41px;
-        margin-right: 40px;
-    }
-    .uploadPhoto:hover {
-        background: #7aad55;
-    }
-    .uploadPhoto input[type="file"]{
-        display: none; /* Обязательно скрываем настоящий Input File */
-    }
-    .uploadPhoto label {
-        /* Растягиваем label на всю возможную площадь блока .file-upload */
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-    .uploadPhoto span {
-        line-height: 36px; /* Делаем вертикальное выравнивание текста, который написан на кнопке */
-    }
-
-
-    .submit-btn {
+    .submit-btn-settings {
         display: inline-block;
         position: relative;
         overflow: hidden;
         height: 45px;
         min-width: 200px;
-
         border: none;
         border-radius: 35px;
         padding-right: 30px;
@@ -345,11 +238,11 @@
         margin-left: 200px;
         margin-right: auto;
     }
-    .submit-btn:focus{
+    .submit-btn-settings:focus{
         outline: none;
     }
-    .submit-btn:last-of-type {margin-right: 0;}
-    .submit-btn:after {
+    .submit-btn-settings:last-of-type {margin-right: 0;}
+    .submit-btn-settings:after {
         position: absolute;
         right: 10px;
         top: 0;
@@ -367,5 +260,8 @@
         0%, 100% {transform: translateY(0);}
         50% {transform: translateY(-8px);}
     }
-    .submit-btn:hover:after {animation: float 2s linear infinite;}
+    .submit-btn-settings:hover:after {animation: float 2s linear infinite;}
+    .submit-btn-settings-left{
+        margin-left: 200px; background: crimson
+    }
 </style>

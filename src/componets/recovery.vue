@@ -1,10 +1,13 @@
 <template>
     <div id="recovery">
-        <div class="haed" style="background-image: url('src/assets/foto-fon-2-5.jpg')">
-            <img src="src/assets/logo.png" id="logo" width="100px" height="100px">
-            <div class="demo" >FOLLOW ME</div>
+        <div class="haed" style="background-image: url('src/assets/foto-fon-2-5.jpg');">
+            <div style="margin-left: auto;
+        margin-right: auto;width: 370px">
+                <img src="src/assets/logo.png" id="logo" width="100px" height="100px">
+                <div class="demo" >FOLLOW ME</div>
+            </div>
         </div>
-        <form name="login-form" class="recovery-form"  style="margin-top: 20px; margin-bottom: 110px" method="post">
+        <form name="login-form" class="recovery-form"  style="margin-top: 50px; margin-bottom: 70px" method="post">
             <div class="header">
                 <h1>Recovery email</h1>
                 <span>Enter your emeil</span>
@@ -58,27 +61,7 @@
         }
     }
 </script>
-
 <style>
-    .demo {
-        margin: 1em 0 0.5em 0;
-        color: #343434;
-        font-weight: bold;
-        font-family: 'Ultra', sans-serif;
-        font-size: 66px;
-        line-height: 92px;
-        text-transform: uppercase;
-        text-shadow: 0 2px white, 0 3px #777;
-        position:absolute;
-        left: 475px;
-        top:-60px;
-    }
-
-    #logo{
-        position: relative;
-        left:15px;
-        top:15px;
-
-    }
 
 </style>
+

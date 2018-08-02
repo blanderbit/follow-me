@@ -1,8 +1,7 @@
 <template >
      <div class="transform-border">
-                <img :src="msg!=null ? msg: photo"><br>
-                <input type="button" v-on:click="to" name="edit" value="edit" id="edit_fo" class="edit_foto"  />
-
+           <img :src="msg!=null ? msg: photo"><br>
+           <input type="button" v-on:click="to" name="edit" value="edit" class="edit_foto pointer"  />
      </div>
 </template>
 
@@ -10,56 +9,42 @@
 
 /*фото профиля*/
 
-.transform-border {
-  position: relative;
-  max-width: 200px;
-    margin: 50px auto;
-    transform: perspective(3000px) ;
-}
-.transform-border img {
-  display: block;
-  width: 100%;
-  box-shadow: -12px 11px 1px #f2f2f2;
-}
-.transform-border:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: -22px;
-  top: 22px;
-  background: #cccccc;
-  z-index: -1;
 
-}
 
 /*кнопка редактирования фотографии профиля*/
 .edit_foto {
   text-decoration: none;
   outline: none;
   display: inline-block;
-  padding: 15px 30px;
-  margin: 10px 20px;
-  border: 1px solid white;
+  padding: 15px 20px;
+  margin: 10px 10px;
+    border: 1px solid white;
   border-radius: 10px;
-  box-shadow: 0 0 40px 40px #d0d7a6 inset, 0 0 0 0 #d0d7a6;
+  box-shadow: 0 0 40px 40px #20B2AA inset, 0 0 0 0 #20B2AA;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
-  color: #17313b;
+  color: white;
   transition: .15s ease-in-out;
-  width: 140px;
-  height: 70px;
-  border-radius: 50px;
-  text-align: center;
 }
 .edit_foto:hover {
     color:black;
-    border:1px solid #d0d7a6;
+    border:1px solid black;
 }
 </style>
 
 <script>
+    function validToken(){
+        let cookies = document.cookie.split(',');
+        let token;
+        for(let i = 0; i<cookies.length; i++){
+            if(cookies[i].indexOf('token') !== -1){
+                token = cookies[i].split('=')[1];
+                break;
+            }
+        }
+        return token;
+    }
     export default{
         props:['msg'],
         data(){
@@ -71,7 +56,14 @@
         },
         methods:{
             to:function(){
-
+                if(validToken()) {
+                    event.preventDefault()
+                    this.$router.push({ name: 'settings',params: {id:localStorage.getItem('id')}})
+                }
+                else{
+                    event.preventDefault()
+                    this.$router.push({name: 'login'})
+                }
             }
       },
 
